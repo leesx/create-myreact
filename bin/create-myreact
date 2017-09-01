@@ -1,0 +1,27 @@
+#!/usr/bin/env node
+
+var fs = require('fs-extra');
+var program = require('commander');
+
+program.version('v' + require('../package.json').version)
+    .description('create my react app')
+
+program.command('make <output>')
+    .alias('mk')
+    .description('create a react app')
+    .action(function (__dirpath, output) {
+        if(!output){
+          console.warn('please write a name')
+          return;
+        };
+        fs.copy('./tpl', output, err => {
+          if (err) return console.error(err)
+
+          console.log('your react app  create success!')
+        }) // copies file
+    })
+program.parse(process.argv)
+
+if (program.args.length === 0) {
+    program.help()
+}
